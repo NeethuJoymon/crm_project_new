@@ -1,0 +1,168 @@
+{% extends 'customers/base.html' %}
+{% block title %}Add Customer{% endblock %}
+
+{% block content %}
+
+    <style>
+       
+        .upload-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .form-section {
+            margin-bottom: 30px;
+        }
+       
+    </style>
+    <div class="container mt-5">
+        <h1 class="mb-4">Add New Customer</h1>
+        <form method="POST" action="{% url 'customer_add' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            
+            <!-- Customer ID -->
+            <div class="form-group row">
+                <label for="customerId" class="col-sm-2 col-form-label">Customer ID</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="customerId" name="customer_id" value = "{{ customer_id }}" placeholder="Enter Customer ID" readonly>
+                </div>
+            </div>
+
+            <!-- Personal Details Section -->
+            <div class="accordion mb-3" id="accordionExample">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-block text-left " type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <i class="fas fa-chevron-down mr-2"></i> Personal Details
+                            </button>
+                        </h2>
+                    </div>
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label for="firstName" class="col-sm-3 col-form-label">Name</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="firstName" name="name" placeholder="Enter First Name">
+                                </div>
+                                <label for="firstName" class="col-sm-3 col-form-label">Address</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter Address">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="email" class="col-sm-3 col-form-label">Email</label>
+                                <div class="col-sm-3">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email">
+                                </div>
+                                <label for="phone" class="col-sm-3 col-form-label">Phone</label>
+                                <div class="col-sm-3">
+                                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter Phone Number">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="dob" class="col-sm-3 col-form-label">Date of Birth</label>
+                                <div class="col-sm-3">
+                                    <input type="date" class="form-control" id="dob" name="dob">
+                                </div>
+                                <label for="image" class="col-sm-3 col-form-label">Upload Image</label>
+                                <div class="col-sm-3">
+                                    <input type="file" class="form-control-file" id="image" name="image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Details Section -->
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                        <h2 class="mb-0">
+                            <button class="btn btn-block text-left  collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <i class="fas fa-chevron-down mr-2"></i> Product Details
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label for="productId" class="col-sm-3 col-form-label">Product ID</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="productId" name="product_id" placeholder="Enter Product ID">
+                                </div>
+                                <label for="productName" class="col-sm-3 col-form-label">Product Name</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="productName" name="product_name" placeholder="Enter Product Name">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="purchaseDate" class="col-sm-3 col-form-label">Purchase Date</label>
+                                <div class="col-sm-3">
+                                    <input type="date" class="form-control" id="purchaseDate" name="purchase_date">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+    
+    <!-- Success Message Modal -->
+    <!-- Modal HTML -->
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Success</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Successfully Added Customer</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="modalOkButton">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Show the success modal if the Django context variable indicates success
+        {% if customer_added %}
+            $('#successModal').modal('show');
+        {% endif %}
+
+        // Add event listener to the "OK" button to handle redirection
+        const modalOkButton = document.getElementById('modalOkButton');
+        if (modalOkButton) {
+            modalOkButton.addEventListener('click', function() {
+                // Redirect to the customer list page relative to the current path
+                window.location.href = '/login/customer_list'; // Ensure this path is correct
+            });
+        } else {
+            console.error('OK button not found.');
+        }
+    });
+</script>
+
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock %}

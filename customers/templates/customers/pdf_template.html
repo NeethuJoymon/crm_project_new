@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+        .profile-header, .section {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            margin-bottom: 20px;
+        }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            border: none;
+            background-color: #fff;
+        }
+        .profile-picture {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ddd;
+        }
+        .profile-info {
+            margin-left: 20px;
+        }
+        .profile-info h1, .profile-info p {
+            margin: 0;
+        }
+        .section {
+            margin-top: 0;
+        }
+        .section h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-header">
+            <img src="{{ customer.image.url }}" alt="Profile Picture" class="profile-picture">
+            <div class="profile-info">
+                <h1>{{ customer.name }}</h1>
+                <p>Customer ID: {{ customer.customer_id }}</p>
+            </div>
+        </div>
+        <div class="section">
+            <h2>Personal Details</h2>
+            <p>Address: {{ customer.address }}</p>
+            <p>Email: {{ customer.email }}</p>
+            <p>Phone: {{ customer.phone }}</p>
+            <p>Date of Birth: {{ customer.dob }}</p>
+        </div>
+        <div class="section">
+            <h2>Product Details</h2>
+            <p>Product ID: {{ customer.product_id }}</p>
+            <p>Product Name: {{ customer.product_name }}</p>
+            <p>Purchase Date: {{ customer.purchase_date }}</p>
+        </div>
+    </div>
+</body>
+</html>

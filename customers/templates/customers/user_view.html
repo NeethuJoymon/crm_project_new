@@ -1,0 +1,21 @@
+{% extends 'customers/base.html' %}
+{% block title %}User Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">User Details</h1>
+    <div class="card">
+        <div class="card-header">
+            User Information
+        </div>
+        <div class="card-body">
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <!-- Add other user details as needed -->
+        </div>
+        <div class="card-footer">
+            <a href="{% url 'user_list' %}" class="btn btn-page">Back to User List</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
